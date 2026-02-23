@@ -1,5 +1,3 @@
-import React from "react";
-
 export type TabKey = "risk" | "portal" | "dashboard";
 
 export function TopTabs({
