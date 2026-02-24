@@ -104,79 +104,65 @@ export function parseRiesgosCSV(text: string): RiskRow[] {
 export function parseClavesCSV(text: string): RiskKeys {
   const grid = parseCSV(text);
 
-  // PROBABILIDAD
-  const probTableIdx = grid.findIndex(
-    (r) =>
-      (r[0] ?? "").toLowerCase().includes("valoración cuantitativa") &&
-      r.some((c) => (c ?? "").toLowerCase().includes("cualitativa"))
-  );
+  const norm = (s: string) => (s ?? "").toLowerCase().trim();
+  const rowHas = (r: string[], needle: string) => r.some((c) => norm(c).includes(needle));
+  const compact = (r: string[]) => r.map((x) => (x ?? "").trim()).filter((x) => x !== "");
+
+  // PROBABILIDAD: buscamos la fila que contiene el título de la tabla (en cualquier columna)
+  const probTableIdx = grid.findIndex((r) => rowHas(r, "valoración cuantitativa de la probabilidad"));
   if (probTableIdx < 0) throw new Error("No pude ubicar la tabla de PROBABILIDAD en claves.csv");
 
   const probability: RiskKeys["probability"] = [];
   for (let i = probTableIdx + 1; i < grid.length; i++) {
-    const r = grid[i];
-    if (!r[0]) break;
+    const r = compact(grid[i]);
+    if (r.length < 3) break;
     const v = Number(r[0]);
     if (!Number.isFinite(v)) break;
-    probability.push({
-      value: toInt5(r[0]) as any,
-      label: (r[1] ?? "").trim(),
-      description: (r[2] ?? "").trim(),
-    });
+    probability.push({ value: toInt5(r[0]) as any, label: r[1], description: r[2] });
   }
 
   // IMPACTO
-  const impTableIdx = grid.findIndex((r) =>
-    (r[0] ?? "").toLowerCase().includes("valoración cuantitativa del impacto")
-  );
+  const impTableIdx = grid.findIndex((r) => rowHas(r, "valoración cuantitativa del impacto"));
   if (impTableIdx < 0) throw new Error("No pude ubicar la tabla de IMPACTO en claves.csv");
 
   const impact: RiskKeys["impact"] = [];
   for (let i = impTableIdx + 1; i < grid.length; i++) {
-    const r = grid[i];
-    if (!r[0]) break;
+    const r = compact(grid[i]);
+    if (r.length < 3) break;
     const v = Number(r[0]);
     if (!Number.isFinite(v)) break;
-    impact.push({
-      value: toInt5(r[0]) as any,
-      label: (r[1] ?? "").trim(),
-      description: (r[2] ?? "").trim(),
-    });
+    impact.push({ value: toInt5(r[0]) as any, label: r[1], description: r[2] });
   }
 
-  // EVALUACIÓN (bandas)
-  const evalTableIdx = grid.findIndex(
-    (r) => (r[0] ?? "").toLowerCase() === "escala" && r.some((c) => (c ?? "").toLowerCase().includes("riesgo"))
-  );
+  // EVALUACIÓN DEL RIESGO (bandas): buscamos fila que tenga celda "Escala"
+  const evalTableIdx = grid.findIndex((r) => r.some((c) => norm(c) === "escala"));
   if (evalTableIdx < 0) throw new Error("No pude ubicar la tabla de EVALUACIÓN DEL RIESGO en claves.csv");
 
   const scoreBands: RiskKeys["scoreBands"] = [];
   for (let i = evalTableIdx + 1; i < grid.length; i++) {
-    const r = grid[i];
-    if (!r[0]) break;
+    const r = compact(grid[i]);
+    if (r.length < 3) break;
 
-    const range = (r[0] ?? "").trim();
-    const m = range.match(/(\d+)\s*[-–]\s*(\d+)/);
+    const m = r[0].match(/(\d+)\s*[-–]\s*(\d+)/);
     if (!m) break;
 
-    scoreBands.push({
-      min: Number(m[1]),
-      max: Number(m[2]),
-      name: (r[1] ?? "").trim(),
-      description: (r[2] ?? "").trim(),
-    });
+    scoreBands.push({ min: Number(m[1]), max: Number(m[2]), name: r[1], description: r[2] });
   }
 
-  // Frecuencia → Probabilidad asociada
-  const freqIdx = grid.findIndex((r) => (r[0] ?? "").toLowerCase() === "frecuencia");
+  // FRECUENCIA → PROB (si existe)
+  const freqIdx = grid.findIndex((r) => r.some((c) => norm(c) === "frecuencia"));
   const frequencyMap: RiskKeys["frequencyMap"] = [];
+
   if (freqIdx >= 0) {
     for (let i = freqIdx + 1; i < grid.length; i++) {
-      const r = grid[i];
-      if (!r[0]) break;
-      const pv = Number(String(r[r.length - 1] ?? "").replace(/[^0-9.-]/g, ""));
+      const r = compact(grid[i]);
+      if (r.length < 2) break;
+
+      const last = r[r.length - 1];
+      const pv = Number(String(last).replace(/[^0-9.-]/g, ""));
       if (!Number.isFinite(pv)) break;
-      frequencyMap.push({ frecuencia: (r[0] ?? "").trim(), prob: toInt5(String(pv)) });
+
+      frequencyMap.push({ frecuencia: r[0], prob: toInt5(String(pv)) });
     }
   }
 
