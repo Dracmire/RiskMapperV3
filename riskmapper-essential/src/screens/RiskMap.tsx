@@ -13,9 +13,7 @@ export function RiskMap() {
       
       <div className="riskShell">
         <div className="riskCenter card">
-          <div className="cardHeader">
-            aaaa
-          </div>
+          
           <div className="cardBody riskCenterBody">
             {!model ? (
               <div className="empty">
@@ -35,11 +33,11 @@ export function RiskMap() {
           <div className="cardBody">
             <div className="riskRightButtons">
               <button className="btnPrimary" type="button" onClick={loadDefaultFromPublic}>
-                Cargar CSV demo
+                Cargar Datos
               </button>
 
               <label className="btn">
-                Subir riesgos.csv
+                Subir Riesgos
                 <input
                   type="file"
                   accept=".csv,text/csv"
@@ -49,7 +47,7 @@ export function RiskMap() {
               </label>
 
               <label className="btn">
-                Subir claves.csv
+                Subir Claves
                 <input
                   type="file"
                   accept=".csv,text/csv"
