@@ -3,7 +3,7 @@ import { useStudents } from "../state/useStudents";
 import { RiskHeatmap5x5 } from "../components/RiskHeatmap5x5";
 import { useRiskData } from "../risk/useRiskData";
 
-export function RiskMap({ onGoDashboard }: { onGoDashboard: () => void }) {
+export function RiskMap() {
   const { students } = useStudents();
   const { model, loadDefaultFromPublic, uploadCSV, ready, error } = useRiskData();
 
@@ -14,37 +14,28 @@ export function RiskMap({ onGoDashboard }: { onGoDashboard: () => void }) {
 
   return (
     <div className="page">
-      <div className="pageHeader">
-        <div>
-          <h1>Risk Map</h1>
-          <p className="muted">Mapa de calor 5×5. Clic en un cuadrante para ver detalle.</p>
-        </div>
-        <button className="btn" onClick={onGoDashboard} type="button">
-          Ver dashboard →
-        </button>
-      </div>
-
+      
       <div className="riskShell">
-        {/* CENTER: map (includes detail panel) */}
-        <div>
-          {!model ? (
-            <div className="card">
-              <div className="cardBody">
-                <div className="empty">
-                  Carga <b>riesgos.csv</b> y <b>claves.csv</b> (o usa “Cargar CSV demo”).
-                </div>
+        <div className="riskCenter card">
+          <div className="cardHeader">
+            <div className="cardTitle">Mapa de calor 5×5</div>
+            <div className="muted small">Número = situaciones</div>
+          </div>
+          <div className="cardBody riskCenterBody">
+            {!model ? (
+              <div className="empty">
+                Carga <b>riesgos.csv</b> y <b>claves.csv</b> (o usa “Cargar CSV demo”).
               </div>
-            </div>
-          ) : (
-            <RiskHeatmap5x5 model={model} />
-          )}
+            ) : (
+              <RiskHeatmap5x5 model={model} />
+            )}
+          </div>
         </div>
 
-        {/* RIGHT: controls + tiny legend */}
         <aside className="riskRight card">
           <div className="cardHeader">
             <div className="cardTitle">Controles</div>
-            <div className="muted small">CSV + banding</div>
+            <div className="muted small">CSV + bandas</div>
           </div>
           <div className="cardBody">
             <div className="riskRightButtons">
@@ -79,22 +70,10 @@ export function RiskMap({ onGoDashboard }: { onGoDashboard: () => void }) {
             <div className="divider" />
 
             <div className="riskMiniStats">
-              <div className="miniStat">
-                <div className="miniLabel">Dimensiones</div>
-                <div className="miniValue">{model?.dimensions.length ?? "—"}</div>
-              </div>
-              <div className="miniStat">
-                <div className="miniLabel">Situaciones</div>
-                <div className="miniValue">{model?.rows.length ?? "—"}</div>
-              </div>
-              <div className="miniStat">
-                <div className="miniLabel">No autorizados</div>
-                <div className="miniValue">{noAut}</div>
-              </div>
-              <div className="miniStat">
-                <div className="miniLabel">Expiran ≤30d</div>
-                <div className="miniValue">{expSoon}</div>
-              </div>
+              <div className="miniStat"><div className="miniLabel">Dimensiones</div><div className="miniValue">{model?.dimensions.length ?? "—"}</div></div>
+              <div className="miniStat"><div className="miniLabel">Situaciones</div><div className="miniValue">{model?.rows.length ?? "—"}</div></div>
+              <div className="miniStat"><div className="miniLabel">No autorizados</div><div className="miniValue">{noAut}</div></div>
+              <div className="miniStat"><div className="miniLabel">Expiran ≤30d</div><div className="miniValue">{expSoon}</div></div>
             </div>
 
             <div className="divider" />
@@ -107,9 +86,7 @@ export function RiskMap({ onGoDashboard }: { onGoDashboard: () => void }) {
                 {model.keys.scoreBands.map((b) => (
                   <div key={`${b.min}-${b.max}`} className="legendTinyRow">
                     <span className="legendTinyName">{b.name}</span>
-                    <span className="muted small">
-                      {b.min}–{b.max}
-                    </span>
+                    <span className="muted small">{b.min}–{b.max}</span>
                   </div>
                 ))}
               </div>

@@ -665,3 +665,145 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   overflow:auto;
   padding-right: 6px;
 }
+
+/* Make content wider so heatmap + detail fit */
+.content{ max-width: 1400px; }  /* was 1200 */
+
+/* Risk page layout */
+.riskShell{
+  display:grid;
+  grid-template-columns: 1fr 280px;
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .riskShell{ grid-template-columns: 1fr; }
+}
+
+.riskCenterBody{ overflow: visible; } /* important: don’t clip axis */
+
+.riskRight{
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+}
+.riskRight .cardBody{
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right: 6px;
+}
+.riskRightButtons{ display:flex; flex-direction:column; gap:10px; }
+.riskRightButtons .btn, .riskRightButtons .btnPrimary{ width:100%; text-align:center; }
+
+.riskMiniStats{ display:grid; grid-template-columns: 1fr; gap:10px; }
+
+.legendTinyTitle{ font-weight:900; margin-bottom:8px; }
+.legendTiny{ display:flex; flex-direction:column; gap:8px; }
+.legendTinyRow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border:1px solid var(--soft);
+  border-radius:14px;
+  padding:8px 10px;
+  background: rgba(255,255,255,.02);
+}
+.legendTinyName{ font-weight:800; }
+
+/* Heatmap internal layout (detail + grid) */
+.heatLayout{
+  display:grid;
+  grid-template-columns: 360px 1fr;  /* detail left, map right */
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .heatLayout{ grid-template-columns: 1fr; }
+}
+
+/* Ensure 5x5 always stays 5 columns */
+.heatGrid{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(92px, 1fr));
+  gap:10px;
+}
+
+.heatAxisX{
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heatSide{
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+}
+.heatSideBody{
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right: 6px;
+}
+
+/* ===== Fix RiskHeatmap5x5 layout: no overlap, axes contained ===== */
+
+/* 2 columns: board + detail */
+.heatLayout{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px; /* critical: minmax(0,1fr) prevents weird overflow */
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 1100px){
+  .heatLayout{ grid-template-columns: 1fr; }
+}
+
+/* make sure the board can shrink properly (prevents overflow causing overlap) */
+.heatBoard{ min-width: 0; }
+.heatBoard .cardBody{ overflow: visible; }
+
+/* This is the missing positioning for Impacto / 5x5 / Probabilidad */
+.heatBoardInner{
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+/* Place items explicitly */
+.heatAxisY{
+  grid-column: 1;
+  grid-row: 1;
+}
+.heatGrid{
+  grid-column: 2;
+  grid-row: 1;
+
+  display: grid;
+  grid-template-columns: repeat(5, minmax(92px, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+.heatAxisX{
+  grid-column: 2;
+  grid-row: 2;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Make the detail panel scroll instead of expanding over the map */
+.heatSide{
+  min-width: 0;
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+}
+.heatSideBody{
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+  padding-right: 6px;
+}
