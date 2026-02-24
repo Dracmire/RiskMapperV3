@@ -861,7 +861,7 @@ button:focus-visible, input:focus-visible, select:focus-visible{
 /* board + detail in two columns */
 .heatLayout{
   display:grid;
-  grid-template-columns: minmax(0, 1fr) 380px; /* prevents “detail over map” */
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 24vw, 360px);
   gap:14px;
   align-items:start;
 }
