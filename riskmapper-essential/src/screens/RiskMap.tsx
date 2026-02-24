@@ -1,16 +1,12 @@
 // src/screens/RiskMap.tsx
-import { useStudents } from "../state/useStudents";
+
 import { RiskHeatmap5x5 } from "../components/RiskHeatmap5x5";
 import { useRiskData } from "../risk/useRiskData";
 
 export function RiskMap() {
-  const { students } = useStudents();
   const { model, loadDefaultFromPublic, uploadCSV, ready, error } = useRiskData();
 
-  const noAut = students.filter((s) => s.estadoConsentimiento === "no_autorizado").length;
-  const expSoon = students.filter(
-    (s) => (new Date(s.expiraEn).getTime() - Date.now()) / (1000 * 60 * 60 * 24) <= 30
-  ).length;
+  
 
   return (
     <div className="page">
@@ -68,14 +64,18 @@ export function RiskMap() {
 
             <div className="divider" />
 
-            <div className="riskMiniStats">
-              <div className="miniStat"><div className="miniLabel">Dimensiones</div><div className="miniValue">{model?.dimensions.length ?? "—"}</div></div>
-              <div className="miniStat"><div className="miniLabel">Situaciones</div><div className="miniValue">{model?.rows.length ?? "—"}</div></div>
-              <div className="miniStat"><div className="miniLabel">No autorizados</div><div className="miniValue">{noAut}</div></div>
-              <div className="miniStat"><div className="miniLabel">Expiran ≤30d</div><div className="miniValue">{expSoon}</div></div>
-            </div>
+<div className="riskMiniStats2">
+  <div className="miniStat">
+    <div className="miniLabel">Dimensiones</div>
+    <div className="miniValue">{model?.dimensions.length ?? "—"}</div>
+  </div>
+  <div className="miniStat">
+    <div className="miniLabel">Situaciones</div>
+    <div className="miniValue">{model?.rows.length ?? "—"}</div>
+  </div>
+</div>
 
-            <div className="divider" />
+<div className="divider" />
 
             <div className="legendTinyTitle">Bandas (P×I)</div>
             {!model ? (

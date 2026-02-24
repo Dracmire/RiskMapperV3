@@ -904,3 +904,31 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   overflow:auto;
   padding-right:6px;
 }
+
+/* stats del panel derecho: 2 columnas */
+.riskMiniStats2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+
+/* compacta un poco */
+.riskMiniStats2 .miniStat{
+  padding: 8px 10px;
+  border-radius: 14px;
+}
+
+.riskMiniStats2 .miniValue{
+  font-size: 18px;
+}
+
+/* bandas un poco más compactas (sin exagerar) */
+.legendTiny{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.legendTinyRow{
+  padding: 7px 10px;
+  border-radius: 14px;
+}
