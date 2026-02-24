@@ -932,3 +932,11 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   padding: 7px 10px;
   border-radius: 14px;
 }
+
+/* Give the 5x5 area breathing room so it doesn't touch the right edge */
+.heatBoardInner{
+  padding-right: 12px;   /* add right padding */
+  padding-left: 4px;     /* optional: keeps it balanced */
+}
+
+/* If you want even more, increase to 16px */
