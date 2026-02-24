@@ -1,5 +1,6 @@
 import React from "react";
 import { StudentsProvider } from "./state/useStudents";
+import { RiskDataProvider } from "./risk/useRiskData";
 import { TopTabs, type TabKey } from "./components/TopTabs";
 import { RiskMap } from "./screens/RiskMap";
 import { Portal } from "./screens/Portal";
@@ -10,14 +11,16 @@ export default function App() {
 
   return (
     <StudentsProvider>
-      <div className="appShell">
-        <TopTabs active={tab} onChange={setTab} />
-        <div className="content">
-          {tab === "risk" && <RiskMap onGoDashboard={() => setTab("dashboard")} />}
-          {tab === "portal" && <Portal />}
-          {tab === "dashboard" && <Dashboard />}
+      <RiskDataProvider>
+        <div className="appShell">
+          <TopTabs active={tab} onChange={setTab} />
+          <div className="content">
+            {tab === "risk" && <RiskMap onGoDashboard={() => setTab("dashboard")} />}
+            {tab === "portal" && <Portal />}
+            {tab === "dashboard" && <Dashboard />}
+          </div>
         </div>
-      </div>
+      </RiskDataProvider>
     </StudentsProvider>
   );
 }

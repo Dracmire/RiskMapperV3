@@ -66,3 +66,106 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* ===== Heatmap 5×5 ===== */
+.errorBox{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(244,63,94,.45);
+  background: rgba(244,63,94,.12);
+  border-radius: 14px;
+}
+
+.metaGrid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:10px;
+}
+@media (max-width: 980px){
+  .metaGrid{grid-template-columns: repeat(2, 1fr);}
+}
+.meta{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  background: rgba(255,255,255,.02);
+}
+.metaValue{font-weight:900; font-size:22px; margin-top:4px}
+
+.keysGrid{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+.keysBlock{border:1px solid var(--soft); border-radius:16px; padding:12px; background: rgba(255,255,255,.02)}
+.keysTitle{font-weight:900; margin-bottom:10px}
+.keysRow{display:flex; gap:10px; padding:10px; border:1px solid var(--soft); border-radius:14px; background: rgba(0,0,0,.10); margin-bottom:8px}
+.keysBadge{min-width:28px; height:28px; border-radius:10px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); font-weight:900}
+.keysLabel{font-weight:800}
+.rangeGrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px}
+@media (max-width: 980px){
+  .rangeGrid{grid-template-columns: 1fr;}
+}
+.rangeCard{border:1px solid var(--soft); border-radius:16px; padding:12px; background: rgba(0,0,0,.10)}
+.rangeTop{display:flex; justify-content:space-between; gap:10px; align-items:baseline}
+.rangeName{font-weight:900}
+.rangeNums{color:var(--muted); font-weight:800}
+
+.heatShell{display:flex; flex-direction:column}
+.heatGridLayout{
+  display:grid;
+  grid-template-columns: 36px 1fr 420px;
+  gap:12px;
+  align-items:stretch;
+}
+@media (max-width: 980px){
+  .heatGridLayout{grid-template-columns: 1fr;}
+}
+
+.heatAxisY{
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: var(--muted);
+  font-weight:800;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px dashed rgba(255,255,255,.18);
+  border-radius:14px;
+}
+.heatAxisX{
+  color: var(--muted);
+  font-weight:800;
+  font-size:12px;
+  text-align:center;
+  border:1px dashed rgba(255,255,255,.18);
+  border-radius:14px;
+  padding:8px;
+  grid-column: 2;
+}
+
+.heatGrid{
+  grid-column: 2;
+  display:grid;
+  grid-template-columns: repeat(5, minmax(64px, 1fr));
+  gap:8px;
+}
+
+.heatCell{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-height:78px;
+  transition: transform .08s ease, background .12s ease;
+}
+.heatCell:hover{transform: translateY(-1px)}
+.heatCellSel{outline:2px solid rgba(255,255,255,.25); outline-offset:2px}
+.heatCellScore{font-weight:900; font-size:12px; color: rgba(255,255,255,.75)}
+.heatCellCount{font-weight:900; font-size:26px}
+
+.heatSide{grid-column: 3}
+.heatList{display:flex; flex-direction:column; gap:12px}
+.heatDim{border:1px solid var(--soft); border-radius:16px; padding:12px; background: rgba(255,255,255,.02)}
+.heatDimTop{display:flex; justify-content:space-between; align-items:flex-start; gap:10px}
+.heatSituations{display:flex; flex-direction:column; gap:8px; margin-top:8px}
