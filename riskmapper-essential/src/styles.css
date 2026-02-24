@@ -69,7 +69,7 @@ a{color:inherit}
 .tab:hover{transform: translateY(-1px); background: rgba(255,255,255,.05)}
 .tabActive{border-color: rgba(214,178,94,.55); background: rgba(214,178,94,.12)}
 
-.content{padding:18px; max-width:1200px; width:100%; margin:0 auto}
+.content{padding:18px; max-width:1400px; width:100%; margin:0 auto}
 
 .pageHeader{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px}
 .pageHeader h1{margin:0 0 6px 0; font-size:26px}
@@ -932,11 +932,4 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   padding: 7px 10px;
   border-radius: 14px;
 }
-
-/* Give the 5x5 area breathing room so it doesn't touch the right edge */
-.heatBoardInner{
-  padding-right: 18px;   /* add right padding */
-  padding-left: 4px;     /* optional: keeps it balanced */
-}
-
-/* If you want even more, increase to 16px */
+.riskCenterBody{ padding: 18px; }
