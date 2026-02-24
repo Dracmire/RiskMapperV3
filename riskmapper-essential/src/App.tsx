@@ -15,7 +15,7 @@ export default function App() {
         <div className="appShell">
           <TopTabs active={tab} onChange={setTab} />
           <div className="content">
-            {tab === "risk" && <RiskMap onGoDashboard={() => setTab("dashboard")} />}
+            {tab === "risk" && <RiskMap />}
             {tab === "portal" && <Portal />}
             {tab === "dashboard" && <Dashboard />}
           </div>

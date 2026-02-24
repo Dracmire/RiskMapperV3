@@ -807,3 +807,100 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   overflow: auto;
   padding-right: 6px;
 }
+
+/* =========================
+   RiskMap page layout
+   ========================= */
+.riskShell{
+  display:grid;
+  grid-template-columns: 1fr 260px;
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .riskShell{ grid-template-columns: 1fr; }
+}
+
+.riskCenterBody{ overflow: visible; }
+
+.riskRight{
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+}
+.riskRight .cardBody{
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right: 6px;
+}
+
+.riskRightButtons{ display:flex; flex-direction:column; gap:10px; }
+.riskRightButtons .btn,
+.riskRightButtons .btnPrimary{ width:100%; text-align:center; }
+
+.riskMiniStats{ display:grid; grid-template-columns: 1fr; gap:10px; }
+
+.legendTinyTitle{ font-weight:900; margin-bottom:8px; }
+.legendTiny{ display:flex; flex-direction:column; gap:8px; }
+.legendTinyRow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border:1px solid var(--soft);
+  border-radius:14px;
+  padding:8px 10px;
+  background: rgba(255,255,255,.02);
+}
+.legendTinyName{ font-weight:800; }
+
+/* =========================
+   RiskHeatmap5x5 layout FIX
+   ========================= */
+
+/* board + detail in two columns */
+.heatLayout{
+  display:grid;
+  grid-template-columns: minmax(0, 1fr) 380px; /* prevents “detail over map” */
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .heatLayout{ grid-template-columns: 1fr; }
+}
+
+/* IMPORTANT: positions Impacto / grid / Probabilidad inside the board */
+.heatBoard{ min-width:0; }
+.heatBoardInner{
+  display:grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap:10px;
+  align-items:stretch;
+  min-width:0;
+}
+
+.heatAxisY{ grid-column:1; grid-row:1; }
+.heatGrid{
+  grid-column:2; grid-row:1;
+  display:grid;
+  grid-template-columns: repeat(5, minmax(92px, 1fr));
+  gap:10px;
+  min-width:0;
+}
+.heatAxisX{
+  grid-column:2; grid-row:2;
+  width:100%;
+  box-sizing:border-box;
+}
+
+.heatSide{
+  min-width:0;
+  max-height: calc(100vh - 140px);
+  overflow:hidden;
+}
+.heatSideBody{
+  max-height: calc(100vh - 210px);
+  overflow:auto;
+  padding-right:6px;
+}
