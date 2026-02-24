@@ -41,102 +41,106 @@ export function RiskHeatmap5x5({ model }: { model: RiskModel }) {
   };
 
   return (
-    <div className="heatShell">
-      <div className="heatGridLayout">
-        <div className="heatAxisY">Impacto</div>
+  <div className="heatLayout">
+    <div className="heatBoard card">
+      <div className="cardHeader">
+        <div className="cardTitle">Mapa de calor 5×5</div>
+        <div className="muted small">Número = situaciones en el cuadrante</div>
+      </div>
 
-        <div className="heatGrid">
-          {[5, 4, 3, 2, 1].map((imp) => (
-            <React.Fragment key={imp}>
-              {[1, 2, 3, 4, 5].map((prob) => {
-                const score = prob * imp;
-                const cell = grid[imp][prob];
-                const isSel = selected?.prob === prob && selected?.imp === imp;
+      <div className="cardBody">
+        <div className="heatBoardInner">
+          <div className="heatAxisY">Impacto</div>
 
-                return (
-                  <button
-                    key={`${imp}-${prob}`}
-                    type="button"
-                    className={"heatCell" + (isSel ? " heatCellSel" : "")}
-                    style={{ background: colorFor(score) }}
-                    onClick={() => setSelected({ prob, imp })}
-                    title={`P ${prob} / I ${imp} · ${cell.situations} situaciones`}
-                  >
-                    <div className="heatCellScore">{score}</div>
-                    <div className="heatCellCount">{cell.situations}</div>
-                    <div className="muted small">situaciones</div>
-                  </button>
-                );
-              })}
-            </React.Fragment>
-          ))}
-        </div>
+          <div className="heatGrid">
+            {[5, 4, 3, 2, 1].map((imp) => (
+              <React.Fragment key={imp}>
+                {[1, 2, 3, 4, 5].map((prob) => {
+                  const score = prob * imp;
+                  const cell = grid[imp][prob];
+                  const isSel = selected?.prob === prob && selected?.imp === imp;
 
-        <div className="heatAxisX">Probabilidad</div>
+                  return (
+                    <button
+                      key={`${imp}-${prob}`}
+                      type="button"
+                      className={"heatCell" + (isSel ? " heatCellSel" : "")}
+                      style={{ background: colorFor(score) }}
+                      onClick={() => setSelected({ prob, imp })}
+                    >
+                      <div className="heatCellScore">{score}</div>
+                      <div className="heatCellCount">{cell.situations}</div>
+                    </button>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </div>
 
-        <div className="heatSide card">
-          <div className="cardHeader">
-            <div className="cardTitle">Detalle por cuadrante</div>
-            <div className="muted small">
-              {selected ? `P=${selected.prob} · I=${selected.imp}` : "Selecciona una celda"}
+          <div className="heatAxisX">Probabilidad</div>
+
+          {/* Leyenda mini flotante */}
+          <div className="heatLegendMini">
+            <div className="legendTitle">Bandas</div>
+            <div className="legendMiniGrid">
+              {model.keys.scoreBands.map((b) => (
+                <div key={`${b.min}-${b.max}`} className="legendMiniItem">
+                  <span className="legendMiniName">{b.name}</span>
+                  <span className="muted small">{b.min}-{b.max}</span>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="cardBody">
-            {!selected || !selectedCell ? (
-              <div className="empty">Haz clic en una celda para ver dimensiones y lista completa de situaciones.</div>
-            ) : (
-              <>
-                <div className="sideHeadline">
-                  {selectedCell.dims.length} dimensiones · {selectedCell.situations} situaciones
-                </div>
-
-                <div className="heatList">
-                  {selectedCell.dims.map((d) => {
-                    const band = bandForScore(model.keys, d.score);
-                    return (
-                      <div key={d.dimension} className="heatDim">
-                        <div className="heatDimTop">
-                          <div className="cellMain">{d.dimension}</div>
-                          <div
-                            className="pill"
-                            style={{
-                              borderColor: "rgba(255,255,255,.18)",
-                              background: "rgba(0,0,0,.10)",
-                            }}
-                          >
-                            {band ? band.name : `Score ${d.score}`}
-                          </div>
-                        </div>
-
-                        <div className="muted small" style={{ marginBottom: 8 }}>
-                          Peor caso: P {d.prob} · I {d.imp} · Score {d.score} · Situaciones: {d.situationsCount}
-                        </div>
-
-                        <div className="heatSituations">
-                          {d.rows.map((r, idx) => (
-                            <div key={idx} className="heatListItem">
-                              <div className="cellMain">{r.situation}</div>
-                              <div className="muted small">
-                                P {r.prob} · I {r.imp} · Score {r.score}
-                                {r.frecuencia ? ` · ${r.frecuencia}` : ""}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </div>
         </div>
       </div>
+    </div>
 
-      <div className="hint" style={{ marginTop: 12 }}>
-        Scoring e interpretación se cargan desde <b>claves.csv</b>. El mapa se genera desde <b>riesgos.csv</b>.
+    <div className="heatSide card">
+      <div className="cardHeader">
+        <div className="cardTitle">Detalle</div>
+        <div className="muted small">{selected ? `P=${selected.prob} · I=${selected.imp}` : "Selecciona un cuadrante"}</div>
+      </div>
+      <div className="cardBody heatSideBody">
+        {!selected || !selectedCell ? (
+          <div className="empty">Clic en una celda para ver dimensiones y lista.</div>
+        ) : (
+          <>
+            <div className="sideHeadline">
+              {selectedCell.dims.length} dimensiones · {selectedCell.situations} situaciones
+            </div>
+
+            {/* Lista completa, pero más apretada */}
+            <div className="heatList">
+              {selectedCell.dims.map((d) => {
+                const band = bandForScore(model.keys, d.score);
+                return (
+                  <div key={d.dimension} className="heatDim">
+                    <div className="heatDimTop">
+                      <div className="cellMain">{d.dimension}</div>
+                      <div className="pill" style={{ borderColor: "rgba(255,255,255,.18)", background: "rgba(0,0,0,.10)" }}>
+                        {band ? band.name : `Score ${d.score}`}
+                      </div>
+                    </div>
+
+                    <div className="muted small" style={{ margin: "6px 0 8px" }}>
+                      Peor caso: P {d.prob} · I {d.imp} · {d.score} · {d.situationsCount} sit.
+                    </div>
+
+                    <div className="heatSituations">
+                      {d.rows.map((r, idx) => (
+                        <div key={idx} className="heatListItem">
+                          <div className="cellMain">{r.situation}</div>
+                          <div className="muted small">P {r.prob} · I {r.imp} · {r.score}{r.frecuencia ? ` · ${r.frecuencia}` : ""}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
-  );
-}
+  </div>
+  )};

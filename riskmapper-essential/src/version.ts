@@ -1,0 +1,1 @@
+export const BUILD_SHA = import.meta.env.VITE_GIT_SHA ?? "dev";

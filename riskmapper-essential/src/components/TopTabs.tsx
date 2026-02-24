@@ -1,5 +1,5 @@
 export type TabKey = "risk" | "portal" | "dashboard";
-
+const sha = import.meta.env.VITE_BUILD_SHA ?? "dev";
 export function TopTabs({
   active,
   onChange,
@@ -21,7 +21,8 @@ export function TopTabs({
     <div className="topbar">
       <div className="brand">
         <div className="brandTitle">RiskMapper Essential</div>
-        <div className="brandSubtitle">Consentimientos</div>
+        <div className="brandSubtitle">Build: {sha.slice(0,7)}</div>
+        
       </div>
       <div className="tabs">
         <Tab k="risk" label="Risk Map" />
