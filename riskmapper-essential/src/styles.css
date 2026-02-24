@@ -467,3 +467,46 @@ button:focus-visible, input:focus-visible, select:focus-visible{
 .legendRow{display:flex; gap:10px; padding:8px 0; align-items:center}
 .legendBands{display:grid; grid-template-columns: repeat(2,1fr); gap:10px}
 .legendBand{border:1px solid var(--line); border-radius:14px; padding:10px 12px; background: rgba(255,255,255,.02)}
+
+/* ===== RiskMap: 3 columnas (izq controles / centro mapa / der leyenda) ===== */
+.riskLayout{
+  display:grid;
+  grid-template-columns: 300px 1fr 260px;
+  gap:14px;
+  align-items:start;
+}
+
+@media (max-width: 1100px){
+  .riskLayout{
+    grid-template-columns: 1fr;
+  }
+}
+
+.riskSidebar{ position: sticky; top: 86px; }
+.riskLegend{ position: sticky; top: 86px; }
+
+@media (max-width: 1100px){
+  .riskSidebar, .riskLegend{ position: static; }
+}
+
+.riskActions{ display:flex; flex-direction:column; gap:10px; }
+.riskActions .btn, .riskActions .btnPrimary{ width:100%; text-align:center; }
+
+.miniStats{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.miniStat{
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.miniLabel{ color:var(--muted); font-size:12px; font-weight:800 }
+.miniValue{ font-weight:900; font-size:20px; margin-top:4px }
+
+.legendBandsCompact{ display:flex; flex-direction:column; gap:10px; }
+.legendBandCompact{
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.legendBandName{ font-weight:900; }

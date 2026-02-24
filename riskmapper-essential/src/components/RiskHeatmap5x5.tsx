@@ -80,17 +80,7 @@ export function RiskHeatmap5x5({ model }: { model: RiskModel }) {
           <div className="heatAxisX">Probabilidad</div>
 
           {/* Leyenda mini flotante */}
-          <div className="heatLegendMini">
-            <div className="legendTitle">Bandas</div>
-            <div className="legendMiniGrid">
-              {model.keys.scoreBands.map((b) => (
-                <div key={`${b.min}-${b.max}`} className="legendMiniItem">
-                  <span className="legendMiniName">{b.name}</span>
-                  <span className="muted small">{b.min}-{b.max}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>
