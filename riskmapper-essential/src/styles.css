@@ -573,3 +573,95 @@ button:focus-visible, input:focus-visible, select:focus-visible{
   background: rgba(255,255,255,.02);
 }
 .legendTinyName{ font-weight:800; }
+
+/* ===== RiskMap (center map + right controls) ===== */
+.riskShell{
+  display:grid;
+  grid-template-columns: 1fr 260px;
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .riskShell{ grid-template-columns: 1fr; }
+}
+.riskRight{
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+}
+.riskRight .cardBody{
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right: 6px;
+}
+.riskRightButtons{ display:flex; flex-direction:column; gap:10px; }
+.riskRightButtons .btn, .riskRightButtons .btnPrimary{ width:100%; text-align:center; }
+
+.riskMiniStats{ display:grid; grid-template-columns: 1fr; gap:10px; }
+.miniStat{
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.miniLabel{ color:var(--muted); font-size:12px; font-weight:800 }
+.miniValue{ font-weight:900; font-size:20px; margin-top:4px }
+
+.legendTinyTitle{ font-weight:900; margin-bottom:8px; }
+.legendTiny{ display:flex; flex-direction:column; gap:8px; }
+.legendTinyRow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border:1px solid var(--soft);
+  border-radius:14px;
+  padding:8px 10px;
+  background: rgba(255,255,255,.02);
+}
+.legendTinyName{ font-weight:800; }
+
+/* ===== Heatmap 5×5 (THIS fixes the “fell into a row”) ===== */
+.heatLayout{
+  display:grid;
+  grid-template-columns: 340px 1fr;  /* left detail, right grid */
+  gap:14px;
+  align-items:start;
+}
+@media (max-width: 1100px){
+  .heatLayout{ grid-template-columns: 1fr; }
+}
+
+.heatGrid{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(88px, 1fr));
+  gap:10px;
+}
+
+.heatCell{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  cursor:pointer;
+  min-height:96px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform .08s ease, background .12s ease;
+}
+.heatCell:hover{ transform: translateY(-1px); }
+.heatCellSel{ outline:2px solid rgba(255,255,255,.28); outline-offset:2px; }
+.heatCellScore{ font-weight:900; font-size:12px; color: rgba(255,255,255,.72); }
+.heatCellCount{ font-weight:900; font-size:30px; }
+
+.heatSide{
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+}
+.heatSideBody{
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right: 6px;
+}
