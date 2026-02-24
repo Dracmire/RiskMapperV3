@@ -43,10 +43,7 @@ export function RiskHeatmap5x5({ model }: { model: RiskModel }) {
   return (
   <div className="heatLayout">
     <div className="heatBoard card">
-      <div className="cardHeader">
-        <div className="cardTitle">Mapa de calor 5×5</div>
-        <div className="muted small">Número = situaciones en el cuadrante</div>
-      </div>
+      
 
       <div className="cardBody">
         <div className="heatBoardInner">

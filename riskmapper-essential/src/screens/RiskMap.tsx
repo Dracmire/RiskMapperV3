@@ -18,8 +18,7 @@ export function RiskMap() {
       <div className="riskShell">
         <div className="riskCenter card">
           <div className="cardHeader">
-            <div className="cardTitle">Mapa de calor 5×5</div>
-            <div className="muted small">Número = situaciones</div>
+            aaaa
           </div>
           <div className="cardBody riskCenterBody">
             {!model ? (
